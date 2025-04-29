@@ -30,6 +30,7 @@ CREATE TABLE appointments (
 CREATE TABLE billing (
     bill_id SERIAL PRIMARY KEY,
     appointment_id INTEGER REFERENCES appointments(appointment_id),
+    patient_id INTEGER REFERENCES patients(patient_id),
     total_amount DECIMAL(10, 2),
     payment_status VARCHAR(20)
 );
@@ -83,21 +84,21 @@ INSERT INTO appointments (patient_id, doctor_id, appointment_date, diagnosis) VA
 -- Insert Billing
 INSERT INTO billing (appointment_id, total_amount, payment_status) VALUES
 (
-    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Liam' AND last_name = 'Anderson' LIMIT 1) LIMIT 1),
+    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Liam' AND last_name = 'Anderson' LIMIT 1) AND appointment_date = '2025-05-01' LIMIT 1),
     150.00,
     'Paid'
 );
 
 INSERT INTO billing (appointment_id, total_amount, payment_status) VALUES
 (
-    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Ava' AND last_name = 'Davis' LIMIT 1) LIMIT 1),
+    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Ava' AND last_name = 'Davis' LIMIT 1) AND appointment_date = '2025-05-02' LIMIT 1),
     200.00,
     'Pending'
 );
 
 INSERT INTO billing (appointment_id, total_amount, payment_status) VALUES
 (
-    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Olivia' AND last_name = 'Brown' LIMIT 1) LIMIT 1),
+    (SELECT appointment_id FROM appointments WHERE patient_id = (SELECT patient_id FROM patients WHERE first_name = 'Olivia' AND last_name = 'Brown' LIMIT 1) AND appointment_date = '2025-05-03' LIMIT 1),
     180.00,
     'Paid'
 );
